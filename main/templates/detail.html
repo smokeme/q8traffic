@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load det %}
+
+{% block content %}
+<br/>
+<div class="alert alert-dark" role="alert" style="text-align:center"><b> <a>عن المشروع</a></b></div>
+<div class="card text-white bg-dark" >
+  <div class="card-body align-right ">
+    <p><b>تاريخ المخالفة:</b> <small class="text-light">{{object.date}}</small></p>
+    <p><b>رمز المخالفة:</b> <small class="text-light">{{object.violation.type}}</small></p>
+    <p><b>وصف المخالفة:</b> <small class="text-light">{{object.violation.desc}}</small></p>
+    <p><b>مالك المركبة:</b> <small class="text-light">{{object.car.owner}}</small></p>
+    <p><b>رقم المركبة:</b> <small class="text-light">{{object.car.number}}</small></p>
+    <p><b>قيمة التصالح	:</b> <small class="text-light">{{object.violation.amount}}</small></p>
+    <p><b>النقاط المرورية	:</b> <small class="text-light">{{object.violation.points}}</small></p>
+    <p><b>عقوبة الحبس	:</b> <small class="text-light">{{object.violation.detention|det}}</small></p>
+    <p><b>الغرامة المالية:</b> <small class="text-light">{{object.violation.ticket_price}}</small></p>
+
+</div>
+</div>
+</div>
+{% endblock %}

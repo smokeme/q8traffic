@@ -18,7 +18,7 @@ class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = "__all__"
-        exclude = ['user','car','violation']
+        exclude = ['user','car','violation_number']
 
         widgets = {
         'date': forms.DateTimeInput(attrs={'type':'date'}),
@@ -26,7 +26,7 @@ class TicketForm(forms.ModelForm):
         }
         labels = {
             'date': _(' تاريخ المخالفة'),
-            'violation_number': _(' رقم المخالفة'),
+            'violation': _(' نوع المخالفة'),
             'car_number': _(' رقم السيارة'),
             'response': _(' أقوال المخالف'),
         }

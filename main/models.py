@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 class Cars(models.Model):
     number = models.IntegerField()
     owner = models.CharField(max_length=200)
+    email = models.EmailField(max_length=340)
 
     def __str__(self):
         return "%s" % self.number
@@ -40,7 +41,7 @@ class Ticket(models.Model):
     violation = models.ForeignKey(Violation,blank=True,null=True)
     car = models.ForeignKey(Cars,blank=True,null=True)
     car_number = models.IntegerField()
-    violation_number = models.IntegerField()
+    violation_number = models.IntegerField(null=True,blank=True)
     response = models.CharField(max_length=500)
 
     def __str__(self):

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from .models import *
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-
+import requests
 from decimal import Decimal
 # Create your views here.
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -42,16 +42,15 @@ def create_ticket(request):
         if form.is_valid():
             ticket = form.save(commit=False)
             car_number = ticket.car_number
-            violation_number = ticket.violation_number
             try:
-                violation = Violation.objects.get(type=violation_number)
                 car = Cars.objects.get(number=car_number)
             except:
                 return redirect('/')
             ticket.car = car
-            ticket.violation = violation
             ticket.user = request.user
-            ticket.save()
+            x = ticket.save()
+            y = send_simple_message(car.email,ticket.id)
+            print(y)
             return redirect('/')
     context['form'] = form
     return render(request, 'create_ticket.html', context)
@@ -83,6 +82,15 @@ def violation_list(request):
     }
     return render(request, 'violation_list.html', context)
 
+def ticket_detail(request, myid):
+    if not request.user.is_authenticated():
+        return redirect("login")
+    instance = get_object_or_404(Ticket, id=myid)
+    context = {
+    "object": instance,
+    }
+    return render(request, 'detail.html', context)
+
 
 def mylogin(request):
 	context = {}
@@ -109,3 +117,12 @@ def mylogin(request):
 def mylogout(request):
 	logout(request)
 	return redirect("login")
+
+def send_simple_message(email, id):
+    return requests.post(
+        "https://api.mailgun.net/v3/mg.fawaz.online/messages",
+        auth=("api", "key-0d80529bad46a5391564b02447d65732"),
+        data={"from": "Q8 Traffic <mailgun@fawaz.online>",
+              "to": [email],
+              "subject": "Q8 Traffic",
+              "text": "New violation, to check the ticket click on the following link http://fawaz.online/check/%s" % (id)})

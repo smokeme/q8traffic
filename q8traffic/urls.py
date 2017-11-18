@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^violation_list/$', views.violation_list, name='violation_list'),
     url(r'^login/$', views.mylogin, name='login'),
     url(r'^logout/$', views.mylogout, name='logout'),
+    url(r'^check/(?P<myid>\d+)/$', views.ticket_detail, name="detail"),
     url(r'^/$', views.ticket_list),
     url(r'^$', views.ticket_list),
 
