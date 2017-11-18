@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<br/>
+<div class="alert alert-dark" role="alert" style="text-align:center"><b> <a>تسجيل المخالفة</a></b></div>
+<div class="card text-white bg-dark" >
+  <div class="card-body ">
+
+    <form action="{% url 'create_ticket' %}" method="post">
+      {% csrf_token %}
+      {{form|crispy}}
+
+      <input class = "btn btn-primary" type="submit" value="تسجيل">
+    </form>
+  </div>
+
+  </div>
+{% endblock %}

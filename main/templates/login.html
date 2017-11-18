@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<br/>
+<div class="alert alert-dark" role="alert" style="text-align:center"><b> <a>تسجيل الدخول</a></b></div>
+<div class="card text-white bg-dark" >
+  <div class="card-body ">
+    {% if messages %}
+    <ul class='messages'>
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="{% url 'login' %}" method="post">
+      {% csrf_token %}
+      {{form|crispy}}
+
+      <input class = "btn btn-primary" type="submit" value="دخول">
+    </form>
+  </div>
+
+  </div>
+{% endblock %}
